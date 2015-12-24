@@ -107,7 +107,7 @@ module TwitchPotato {
             //
             // this._preview.addEventListener('contentload', () => {
             //     /** Inject the script files. */
-            //     this._preview.executeScript({ file: 'js/Vendor/jquery.min.js' });
+            //     this._preview.executeScript({ file: 'jquery.min.js' });
             //     // TODO: fix
             //     // this._preview.executeScript({ file: 'js/Player/Controller.js' });
             //
