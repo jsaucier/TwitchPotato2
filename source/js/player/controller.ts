@@ -57,13 +57,19 @@ class Controller {
     private _isLoaded = false;
 
     constructor() {
+
         window.addEventListener('message', (event) => this.OnMessage(event.data));
         window.addEventListener('resize', () => this.ViewMode());
+
         this._player = <PlayerEmbed>$('embed')[0];
+
         this.CheckLoaded();
     }
 
     OnMessage(data: string): void {
+
+        // if (this._message === undefined) this._message = event;
+
         var json = JSON.parse(data);
         var params = json.params;
 
@@ -73,21 +79,27 @@ class Controller {
             case PlayerActions.Load:
                 this.Load(params.id, params.isVideo);
                 break;
+
             case PlayerActions.Mute:
                 this.Mute(params.mute);
                 break;
+
             case PlayerActions.State:
                 this.State(params.state);
                 break;
+
             case PlayerActions.ViewMode:
                 this.ViewMode(params.viewMode);
                 break;
+
             case PlayerActions.Quality:
                 this.Quality(params.quality);
                 break;
+
             // case PlayerActions.Preview:
             //     this.Preview(params.id, params.isVideo);
             //     break;
+
             default:
                 console.log('Unhandled method: {0}'.format(PlayerActions[json.action]));
                 break;
@@ -95,17 +107,25 @@ class Controller {
     }
 
     private QueueMessage(json: any): boolean {
+
         if (this._isLoaded || json.params.queue === undefined) return false;
+
         var data = JSON.stringify(json);
+
         this._queue.push(data);
+
         return true;
     }
 
     private ProcessQueue(): void {
+
         if (this._isLoaded) return
+
         this._isLoaded = true;
+
         for (var i = 0; i < this._queue.length; i++)
             this.OnMessage(this._queue[i]);
+
         this._queue = [];
     }
 
@@ -118,7 +138,7 @@ class Controller {
         if (status === 'unknown')
             setTimeout(() => this.CheckLoaded(), 100);
         else
-            setTimeout(() => this.ProcessQueue(), 500);
+            setTimeout(() => this.ProcessQueue(), 100);
     }
 
     private Mute(mute): void {
@@ -200,6 +220,7 @@ class Controller {
             heightStr = "100%";
 
         this._player.height = heightStr;
+        console.log(heightStr);
     }
 }
 
