@@ -121,10 +121,11 @@ var Controller = (function () {
         if (mode !== undefined)
             this._viewMode = mode;
         if (this._viewMode === ViewMode.Fullscreen)
-            heightStr = (height + 27) + 'px';
+            heightStr = (height + 30) + 'px';
         else if (mode === ViewMode.Windowed)
             heightStr = "100%";
         this._player.height = heightStr;
+        console.log(heightStr);
     };
     return Controller;
 })();

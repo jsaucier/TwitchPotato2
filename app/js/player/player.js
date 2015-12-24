@@ -20,7 +20,7 @@ var TwitchPotato;
             });
             this._webview.addEventListener('contentload', function () {
                 _this._webview.executeScript({ file: 'js/Vendor/jquery.min.js' });
-                _this._webview.executeScript({ file: 'js/Player/Controller.js' });
+                _this._webview.executeScript({ file: 'js/Player/controller.js' });
                 _this._isLoaded = true;
                 _this.ViewMode(TwitchPotato.ViewMode.Fullscreen);
                 _this.Mute(false);
