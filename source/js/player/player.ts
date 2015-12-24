@@ -3,7 +3,6 @@ module TwitchPotato {
     export class Player {
 
         private _isLoaded = false;
-
         private _id: string;
         private _isVideo: boolean;
         private _number: number;
@@ -42,8 +41,8 @@ module TwitchPotato {
             /** Bind to the contentload event. */
             this._webview.addEventListener('contentload', () => {
 
-                this._webview.executeScript({ file: 'js/Vendor/jquery.min.js' });
-                this._webview.executeScript({ file: 'js/Player/controller.js' });
+                this._webview.executeScript({ file: 'jquery.min.js' });
+                this._webview.executeScript({ file: 'js/player/controller.js' });
 
                 this._isLoaded = true;
 
