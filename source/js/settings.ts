@@ -52,7 +52,7 @@ module TwitchPotato {
 
                 this._settings = undefined;
 
-                chrome.storage.local.get(null,(store) => {
+                chrome.storage.local.get(null, (store) => {
 
                     this._settings = <StorageInterface>$.extend(
                         true,
@@ -77,11 +77,19 @@ module TwitchPotato {
             });
         }
 
+        // Quality(quality?: Quality): Quality {
+        //     if (quality !== undefined) {
+        //         this._settings.quality = quality;
+        //     }
+        //     this.Save();
+        //     return this._settings.quality;
+        // }
+
         private _defaults = <StorageInterface>{
             zoom: 1,
             useViewPreview: false,
             hidden: [],
-            quality: Quality.Mobile,
+            quality: Quality.Source,
             isMouseEnabled: false,
             refreshRate: 60000
         };
@@ -97,12 +105,12 @@ module TwitchPotato {
             App.UpdateZoom();
         }
 
-        /** Gets or sets the default stream quality. */
-        get quality(): Quality { return this._settings.quality; }
-        set quality(quality: Quality) {
-            this._settings.quality = quality;
-            this.Save();
-        }
+        // /** Gets or sets the default stream quality. */
+        // get Quality(): Quality { return this._settings.quality; }
+        // set Quality(quality: Quality) {
+        //     this._settings.quality = quality;
+        //     this.Save();
+        // }
 
         get useViewPreview(): boolean { return this._settings.useViewPreview; }
         set useViewPreview(useViewPreview: boolean) {

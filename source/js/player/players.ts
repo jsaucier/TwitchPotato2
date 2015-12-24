@@ -39,7 +39,7 @@ module TwitchPotato {
                         return true;
 
                     case Inputs.Mute:
-                        player.Mute();
+                        player.Mute(null);
                         return true;
 
                     case Inputs.Flashback:

@@ -13,6 +13,7 @@ interface PlayerEmbed extends HTMLElement {
     setVideoTime(time: number): void;
     isPaused(): boolean;
     setQuality(quality: string): void;
+    quality(): any;
     togglePlayPause(): void;
     height: string;
 }
@@ -50,20 +51,22 @@ enum Quality {
 class Controller {
 
     private _player: PlayerEmbed;
-    // private _message: MessageEvent;
     private _viewMode = ViewMode.Windowed;
     private _isMuted: boolean;
     private _queue: Array<any> = [];
     private _isLoaded = false;
+    private _source: any;
 
     constructor() {
-        window.addEventListener('message', (event) => this.OnMessage(event.data));
+        window.addEventListener('message', (event) => this.OnMessage(event.data, event.source));
         window.addEventListener('resize', () => this.ViewMode());
         this._player = <PlayerEmbed>$('embed')[0];
         this.CheckLoaded();
     }
 
-    OnMessage(data: string): void {
+    OnMessage(data: string, source?: any): void {
+        if (this._source === undefined) this._source = source;
+
         var json = JSON.parse(data);
         var params = json.params;
 
@@ -89,9 +92,12 @@ class Controller {
             //     this.Preview(params.id, params.isVideo);
             //     break;
             default:
-                console.log('Unhandled method: {0}'.format(PlayerActions[json.action]));
+                console.log('Unhandled method: ' + PlayerActions[json.action]);
                 break;
         }
+
+        console.log('Received: ' + PlayerActions[json.action]);
+        setTimeout(() => this._source.postMessage(data, '*'));
     }
 
     private QueueMessage(json: any): boolean {
@@ -118,11 +124,10 @@ class Controller {
         if (status === 'unknown')
             setTimeout(() => this.CheckLoaded(), 100);
         else
-            setTimeout(() => this.ProcessQueue(), 1000);
+            setTimeout(() => this.ProcessQueue(), 100);
     }
 
     private Mute(mute): void {
-
         if (mute === true)
             this._player.mute();
         else

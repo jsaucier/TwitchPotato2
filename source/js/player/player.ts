@@ -45,13 +45,14 @@ module TwitchPotato {
 
                     this.Mute(false);
                     this.State(PlayerState.Playing);
-                    this.Quality(App.Settings.quality);
                     this.ViewMode(ViewMode.Fullscreen);
-                });
+                    this.Quality(Quality.Source);
+                }, 100);
             });
 
             /** Bind to the console message event. */
             this._webview.addEventListener('consolemessage', (e) => ConsoleMessage(e));
+            window.addEventListener('message', (event) => this.OnMessage(event.data));
 
             this._menu = new PlayerMenu(this);
         }
@@ -127,23 +128,21 @@ module TwitchPotato {
                     this._state === PlayerState.Playing)
                     state = PlayerState.Stopped;
 
-                this._state = state;
-
                 this.PlayerAction(PlayerActions.State, { state: state });
             }
-
-            return this._state;
+            else
+                return this._state;
         }
 
         /** Gets or sets the mute status of the player. */
         Mute(mute?: boolean): boolean {
-
             if (mute !== undefined) {
-                this._isMuted = mute;
+                if (mute === null)
+                    mute = !this._isMuted;
                 this.PlayerAction(PlayerActions.Mute, { mute: mute });
             }
-
-            return this._isMuted;
+            else
+                return this._isMuted;
         }
 
         /** Gets or sets the view mode of the player. */
@@ -155,25 +154,20 @@ module TwitchPotato {
                         ViewMode.Fullscreen;
 
                 if (this._viewMode !== viewMode) {
-                    console.log('viewmode queued');
-                    this._viewMode = viewMode;
                     this.PlayerAction(PlayerActions.ViewMode, { viewMode: viewMode });
-                    this.DisplayActionNotification(ViewMode[this._viewMode]);
                 }
             }
-
-            return this._viewMode;
+            else
+                return this._viewMode;
         }
 
         /** Gets or sets the quality of the player. */
         Quality(quality?: Quality): Quality {
-
             if (quality !== undefined) {
-                this._quality = quality;
                 this.PlayerAction(PlayerActions.Quality, { quality: quality });
             }
-
-            return this._quality;
+            else
+                return this._quality;
         }
 
         /** Gets or sets the position of the player. */
@@ -207,7 +201,6 @@ module TwitchPotato {
 
         /** Executes an action with the given param object on the player. */
         private PlayerAction(action: PlayerActions, params = {}): void {
-
             if (!this._webview.contentWindow) {
                 setTimeout(() => this.PlayerAction(action, params), 100);
                 return;
@@ -219,41 +212,36 @@ module TwitchPotato {
             };
 
             setTimeout(() => this._webview.contentWindow.postMessage(JSON.stringify(data), '*'), 100);
-            console.log(data);
         }
 
-
-
-
-
-        /** Displays a notification of the player action. */
-        private DisplayActionNotification(action: string): void {
-            // console.log(action);
-            //             // TODO: Display an image or icon in reference of the action.
-            //
-            //             clearTimeout(this._notifyTimeout);
-            //
-            //             $('.action').remove();
-            //
-            //             var div = $('<div/>').addClass('action');
-            //
-            //             div.append($('<span/>'));
-            //
-            //             // .text(action.toUpperCase());
-            //
-            //             // div.append($('<div/>')
-            //             //     .addClass('text')
-            //             //     .text(action.toUpperCase()));
-            //
-            //
-            //             div.append($('<img/>').attr({
-            //                 src: 'chrome-extension://' + chrome.runtime.id + '/images/' + action.toLowerCase() + '.png'
-            //             }));
-            //
-            //             $('body').append(div);
-            //
-            //
-            //             //this._notifyTimeout = setTimeout(() => $('.action').remove(), 2500);
+        OnMessage(data: string): void {
+            var json = JSON.parse(data);
+            var params = json.params;
+            console.log('Response: ' + PlayerActions[json.action]);
+            switch (json.action) {
+                case PlayerActions.Mute:
+                    var div = this._container.find('#muted');
+                    if (params.mute === true)
+                        div.removeClass('closed');
+                    else
+                        div.addClass('closed');
+                    this._isMuted = params.mute;
+                    break;
+                case PlayerActions.State:
+                    this._viewMode = params.viewMode;
+                    break;
+                case PlayerActions.ViewMode:
+                    this._viewMode = params.viewMode;
+                    break;
+                case PlayerActions.Quality:
+                    var div = this._container.find('#quality');
+                    div.text(Quality[params.quality]).removeClass('closed');
+                    setTimeout(() => div.addClass('closed'), 5000);
+                    break;
+                default:
+                    console.log('Unhandled method: {0}'.format(PlayerActions[json.action]));
+                    break;
+            }
         }
     }
 }

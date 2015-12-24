@@ -1,5 +1,8 @@
 // out: ../../app/css/player.css, sourcemap: true, compress: true
 @purple: #6441a5;
+@darkgray: #222;
+@gray: #262626;
+@lightgray: #F1F1F1;
 * {
     padding: 0;
     margin: 0;
@@ -11,6 +14,7 @@
 #players {
     position: fixed;
     display: none;
+    
     // transition-property: all;
     // transition-duration: 0.25s;
     top: 0;
@@ -27,6 +31,7 @@
             display: none !important;
         }
     }
+    
     // &[mode="Full"] {
     //     top: 0;
     //     bottom: 0;
@@ -126,6 +131,35 @@
         }
         .notify {
             display: none;
+        }
+        #display {
+            #quality,
+            #muted,
+            #info {
+                position: fixed;
+                background-color: @gray;
+                border: 4px solid @purple;
+                padding: 5px;
+                transition-property: transform;
+                transition-duration: 0.5s;
+                &.closed {
+                    transform: scale(0);
+                }
+            }
+            #quality,
+            #muted {
+                text-align: center;
+                width: 130px;
+            }
+            #quality {
+                bottom: 20px;
+                left: 50%;
+                margin-left: -65px;
+            }
+            #muted {
+                bottom: 20px;
+                left: 20px;
+            }
         }
         .menu {
             display: none;

@@ -24,9 +24,7 @@
     <script type="text/javascript" src="js/guide/content.js"></script>
     <script type="text/javascript" src="js/guide/guide.js"></script>
 
-
     <script type="text/javascript" src="js/authenticator.js"></script>
-
 
     <script type="text/javascript" src="js/Player/menu.js"></script>
     <script type="text/javascript" src="js/player/players.js"></script>
@@ -106,7 +104,7 @@
     <div id="notification" class="closed"></div>
 
     <div id="load">
-        <img src="images/loading.gif" />
+        <img src="images/GlitchIcon_white.png" />
     </div>
 
     <div id="error" class="window">
@@ -128,6 +126,17 @@
     <script id="player-template" type="text/template">
         <div class="player" number="{0}">
             <webview type="player" autosize="on" partition="persist:twitchpotato"></webview>
+            <div id="display">
+                <div id="info" style="display: none;">
+                    <div class="logo"></div>
+                    <div class="streamer"></div>
+                    <div class="title"></div>
+                    <div class="game"></div>
+                </div>
+
+                <div id="muted" class="closed">Muted</div>
+                <div id="quality" class="closed"></div>
+            </div>
         </div>
     </script>
 
