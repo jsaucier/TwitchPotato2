@@ -21,9 +21,6 @@ Player Selector - Refactor to a separate file (Player/Selector.ts)
             Equal
         Close
 
-Get stream info to determine sources available.
- -- http://api.twitch.tv/kraken/channels/thijshs (partner = true, all transcode available)
-
 Create option to set default stream quality.
 
 refresh fucking sucks
