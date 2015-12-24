@@ -1,0 +1,52 @@
+{
+    "version": "1.5.0-alpha",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "outDir": "./app",
+        "sourceMap": true
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./source/app.ts",
+        "./source/scripts/js/authenticator.ts",
+        "./source/scripts/js/chat.ts",
+        "./source/scripts/js/enums.ts",
+        "./source/scripts/js/guide/content.ts",
+        "./source/scripts/js/guide/contextmenu.ts",
+        "./source/scripts/js/guide/guide.ts",
+        "./source/scripts/js/guide/itemmenu.ts",
+        "./source/scripts/js/guide/list.ts",
+        "./source/scripts/js/guide/menu.ts",
+        "./source/scripts/js/guide/menuitem.ts",
+        "./source/scripts/js/guide/timer.ts",
+        "./source/scripts/js/input.ts",
+        "./source/scripts/js/lib/chrome.d.ts",
+        "./source/scripts/js/lib/definitions.d.ts",
+        "./source/scripts/js/lib/jquery.d.ts",
+        "./source/scripts/js/notification.ts",
+        "./source/scripts/js/player/controller.ts",
+        "./source/scripts/js/player/menu.ts",
+        "./source/scripts/js/player/player.ts",
+        "./source/scripts/js/player/players.ts",
+        "./source/scripts/js/potato.ts",
+        "./source/scripts/js/settings.ts",
+        "./source/scripts/js/timers.ts",
+        "./source/scripts/js/twitch.ts",
+        "./source/scripts/js/utils.ts",
+        "./source/scripts/js/webview.ts",
+        "./source/scripts/js/windows.ts"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}

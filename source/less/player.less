@@ -1,0 +1,163 @@
+// out: ../../app/css/player.css, sourcemap: true, compress: true
+@purple: #6441a5;
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    &:focus {
+        outline: 0;
+    }
+}
+#players {
+    position: fixed;
+    display: none;
+    // transition-property: all;
+    // transition-duration: 0.25s;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    &.guide2 {
+        left: 311px;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        border: 5px solid @purple;
+        .player .menu {
+            display: none !important;
+        }
+    }
+    // &[mode="Full"] {
+    //     top: 0;
+    //     bottom: 0;
+    //     left: 0;
+    //     right: 0;
+    //     width: 100%;
+    //     height: 100%;
+    // }
+    // &[mode="ChatLeft"] {
+    //     left: 25%;
+    //     top: 0;
+    //     right: 0;
+    //     bottom: 0;
+    // }
+    // &[mode="ChatRight"] {
+    //     left: 0;
+    //     top: 0;
+    //     right: 25%;
+    //     bottom: 0;
+    // }
+    .player {
+        position: absolute;
+        &[multi="Default"] {
+            height: 30%;
+            width: 30%;
+            z-index: 2001;
+            &[number="0"] {
+                display: block;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 100%;
+                width: 100%;
+                z-index: 1001;
+            }
+            &[number="1"] {
+                display: block;
+                bottom: 2%;
+                left: 2%;
+            }
+            &[number="2"] {
+                display: block;
+                bottom: 2%;
+                left: 50%;
+                margin-left: -15%;
+            }
+            &[number="3"] {
+                display: block;
+                bottom: 2%;
+                right: 2%;
+            }
+        }
+        &[multi="Equal"] {
+            height: 50%;
+            width: 50%;
+            z-index: 1001;
+            &[number="0"] {
+                display: block;
+                top: 0;
+                left: 0;
+            }
+            &[number="1"] {
+                display: block;
+                top: 0;
+                left: 50%;
+            }
+            &[number="2"] {
+                display: block;
+                left: 0;
+                top: 50%;
+            }
+            &[number="3"] {
+                display: block;
+                left: 50%;
+                top: 50%;
+            }
+        }
+        webview,
+        .highlight,
+        .notify {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+        }
+        webview {
+            background-color: #222;
+        }
+        .highlight {
+            display: none;
+            background-color: @purple;
+            opacity: 0.4;
+        }
+        .notify {
+            display: none;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            .items {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                .item {
+                    margin-right: 10px;
+                    padding: 6px;
+                    border-radius:26px img {
+                        width: 100%;
+                        height: 100%;
+                        vertical-align: top;
+                        border-radius: 20px;
+                    }
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                    &.selected {
+                        background-color: red;
+                    }
+                }
+            }
+        }
+    }
+}

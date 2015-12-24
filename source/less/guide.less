@@ -1,0 +1,260 @@
+// out: ../../app/css/guide.css, sourcemap: true, compress: true
+@purple: #6441a5;
+@darkgray: #222;
+@gray: #252525;
+@lightgray: #333;
+.textShadow(@color) {
+    text-shadow: -1px -1px 0 @color, 1px -1px 0 @color, -1px 1px 0 @color, 1px 1px 0 @color;
+}
+#guide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: @darkgray;
+    z-index: 1;
+    transition-property: left;
+    transition-duration: 0.5s;
+    &.closed {
+        left: -452px;
+        #status {
+            transform: scale(0);
+        }
+    }
+    #status {
+        position: fixed;
+        right: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        transition-property: transform;
+        transition-duration: 0.5s;
+        align-items: flex-end;
+        padding: 8px;
+        background-color: @darkgray;
+        margin: 20px;
+        border-radius: 5px;
+        div {
+            font-size: 30px;
+            font-weight: bold;
+            width: 100%;
+            text-align: right;
+            &.update {
+                font-size: 18px;
+            }
+        }
+    }
+    #menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 452px;
+        display: flex;
+        flex-direction: row;
+        background-color: @purple;
+        padding: 5px 0 5px 5px;
+        transition-property: left;
+        transition-duration: 0.5s;
+        z-index: 1;
+        #expander {
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+            margin: 0 5px;
+            background-color: #151515;
+            color: #fff;
+            border: 1px solid #000;
+            #menu-text {
+                transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                text-transform: uppercase;
+                font-size: 24px;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+        }
+        &.closed {
+            left: -400px;
+        }
+        .menu-left {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            .title {
+                margin-bottom: 5px;
+                border: 1px solid #000;
+                background-color: #151515;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                padding: 5px 10px 8px;
+                .name {
+                    font-size: 30px;
+                    font-weight: bold;
+                    flex: 1 0 auto;
+                }
+                #version {
+                    flex: 0 1 auto;
+                    text-align: right;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            }
+            #menu-items {
+                display: flex;
+                flex-direction: column;
+                flex: 1 0 auto;
+                .item {
+                    border: 1px solid #000;
+                    border-top: none;
+                    padding: 11px 8px 8px;
+                    font-size: 20px;
+                    background-color: @gray;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-weight: bold;
+                    &:first-child {
+                        border-top: 1px solid #000;
+                    }
+                    &.selected {
+                        background-color: @purple;
+                    }
+                }
+                .separator {
+                    flex-grow: 1;
+                    margin: 5px 0;
+                    border: 1px solid #000;
+                    background-color: @darkgray;
+                    .keybinds {
+                        .keybinds-title {
+                            text-align: center;
+                            font-size: 18px;
+                            font-weight: bold;
+                            padding: 4px 8px;
+                        }
+                        .keybinds-header {
+                            padding: 4px 8px;
+                            font-weight: bold;
+                        }
+                        .keybinds-bindings {
+                            display: flex;
+                            padding: 4px 8px;
+                            .keybinds-bindings-key {
+                                text-align: center;
+                                flex: 1 0 25%;
+                            }
+                            .keybinds-bindings-desc {
+                                flex: 1 0 75%;
+                            }
+                        }
+                    }
+                }
+                #keybinds {
+                    border-top: 1px solid #000;
+                }
+            }
+        }
+    }
+    #list {
+        position: absolute;
+        left: 0;
+        background-color: #000;
+        border: 5px solid @purple;
+        border-left: none;
+        padding: 1px;
+        height: 100%;
+        width: 400px;
+        margin-left: 52px;
+        overflow: scroll;
+        transition-property: left;
+        transition-duration: 0.5s;
+        &.closed {
+            left: -452px;
+        }
+        .item {
+            margin-bottom: 1px;
+            background-color: @gray;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            .name,
+            .viewers,
+            .game,
+            .title {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 18px;
+                flex: 1 1 auto;
+            }
+            .line {
+                display: flex;
+                align-items: center;
+                flex: 1 1 auto;
+                flex-wrap: nowrap;
+                .name {
+                    font-weight: bold;
+                }
+                .viewers {
+                    font-size: 14px;
+                    flex: 0 0 auto;
+                    padding: 3px 6px;
+                    background-color: #666;
+                    border-radius: 5px;
+                }
+            }
+            .game,
+            .title {
+                font-size: 16px;
+                margin-top: 4px;
+                padding-left: 10px;
+            }
+            .title {
+                font-size: 14px;
+            }
+            &.followed {
+                background-color: @lightgray;
+            }
+            &.hidden {
+                background-color: #494949;
+            }
+            &.selected {
+                background-color: @purple;
+                .viewers {
+                    background-color: @darkgray;
+                }
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+            #item-menu {
+                background-color: #000;
+                padding: 1px;
+                margin-top: 5px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                .menu-item {
+                    font-size: 16px;
+                    background-color: @gray;
+                    border-bottom: 1px solid #000;
+                    text-align: center;
+                    padding: 4px;
+                    white-space: nowrap;
+                    flex: 1 0 auto;
+                    &.selected {
+                        background-color: @purple;
+                    }
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+}

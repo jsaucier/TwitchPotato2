@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Twitch Potato</title>
+
+    <link type="text/css" rel="stylesheet" href="css/potato.css" />
+    <link type="text/css" rel="stylesheet" href="css/guide.css" />
+    <link type="text/css" rel="stylesheet" href="css/player.css" />
+
+    <script type="text/javascript" src="./js/Vendor/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/enums.js"></script>
+    <script type="text/javascript" src="js/potato.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/windows.js"></script>
+    <script type="text/javascript" src="js/input.js"></script>
+    <script type="text/javascript" src="js/settings.js"></script>
+
+    <script type="text/javascript" src="js/guide/menu.js"></script>
+    <script type="text/javascript" src="js/guide/list.js"></script>
+    <script type="text/javascript" src="js/guide/itemmenu.js"></script>
+    <script type="text/javascript" src="js/guide/timer.js"></script>
+    <script type="text/javascript" src="js/guide/content.js"></script>
+    <script type="text/javascript" src="js/guide/guide.js"></script>
+
+
+    <script type="text/javascript" src="js/authenticator.js"></script>
+
+
+    <script type="text/javascript" src="js/Player/menu.js"></script>
+    <script type="text/javascript" src="js/player/players.js"></script>
+    <script type="text/javascript" src="js/player/player.js"></script>
+
+    <script type="text/javascript" src="js/Twitch.js"></script>
+
+    <script type="text/javascript" src="js/notification.js"></script>
+    <script type="text/javascript" src="js/chat.js"></script>
+</head>
+
+<body>
+
+    <div id="logo">
+        <div class="logo-top"></div>
+        <div class="logo">
+            <img src="images/Twitch_Logo_White.png" />
+        </div>
+        <div class="logo-bottom"></div>
+    </div>
+
+    <div id="guide">
+
+        <div id="status">
+            <div class="current">Curent Time</div>
+            <div class="update">Last Updated</div>
+        </div>
+
+        <div id="menu" class="closed">
+            <div class="menu-left">
+                <div class="title">
+                    <div class="name">Twitch Potato</div>
+                    <div id="version">2.0.0</div>
+                </div>
+                <div id="menu-items">
+                    <div class="separator">
+                        <div class="keybinds">
+                            <div class="keybinds-title">Keybindings</div>
+                            <div class="keybinds-header">Global Bindings</div>
+                            <div class="keybinds-bindings">
+                                <div class="keybinds-bindings-key">ESC</div>
+                                <div class="keybinds-bindings-desc">Exits the application.</div>
+                            </div>
+                            <div class="keybinds-bindings">
+                                <div class="keybinds-bindings-key">G</div>
+                                <div class="keybinds-bindings-desc">Toggles the guide.</div>
+                            </div>
+                            <div class="keybinds-header">Guide Bindings</div>
+                            <div class="keybinds-bindings">
+                                <div class="keybinds-bindings-key">P</div>
+                                <div class="keybinds-bindings-desc">Toggles the menu for the selected item.</div>
+                            </div>
+                            <div class="keybinds-header">Player Bindings</div>
+                        </div>
+                    </div>
+                    <div id="keybinds" class="item setting">View Keybinds</div>
+                    <div id="refresh" class="item setting">Refresh - 1 min</div>
+                    <div id="mouse" class="item setting">Enable Mouse</div>
+                    <div id="reset" class="item setting">Reset</div>
+                    <div id="logout" class="item setting">Logout</div>
+                    <div id="exit" class="item setting">Exit</div>
+                </div>
+            </div>
+            <div id="expander">
+                <div id="menu-text">MENU</div>
+            </div>
+        </div>
+
+        <div id="list"></div>
+    </div>
+
+    <div id="players"></div>
+
+    <webview id="chat" autosize="on" partition="persist:twitchpotato"></webview>
+    <webview id="login" autosize="on" partition="persist:twitchpotato"></webview>
+
+    <div id="notification" class="closed"></div>
+
+    <div id="load">
+        <img src="images/loading.gif" />
+    </div>
+
+    <div id="error" class="window">
+        <div class="main">
+            <div class="error"></div>
+        </div>
+    </div>
+
+
+    <script id="video-item-template" type="text/template">
+        <div class="item" type="video">
+            <div class="name"></div>
+            <div class="game"></div>
+            <div class="title"></div>
+        </div>
+        </div>
+    </script>
+
+    <script id="player-template" type="text/template">
+        <div class="player" number="{0}">
+            <webview type="player" autosize="on" partition="persist:twitchpotato"></webview>
+        </div>
+    </script>
+
+    <script id="chat-template" type="text/template">
+        <webview type="chat" autosize="on" partition="persist:twitchpotato"></webview>
+    </script>
+
+</body>
+
+</html>
