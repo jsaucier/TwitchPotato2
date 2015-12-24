@@ -215,7 +215,7 @@ class Controller {
         if (mode !== undefined) this._viewMode = mode;
 
         if (this._viewMode === ViewMode.Fullscreen)
-            heightStr = (height + 30) + 'px';
+            heightStr = (height + 34) + 'px';
         else if (mode === ViewMode.Windowed)
             heightStr = "100%";
 
