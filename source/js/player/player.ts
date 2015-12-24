@@ -16,7 +16,6 @@ module TwitchPotato {
         private _multiLayout: MultiLayout;
         private _container: JQuery;
         private _notifyTimeout: number;
-        private _isPartnered: boolean;
         private _menu: PlayerMenu;
 
         /** Creates a new instance of player. */
@@ -31,25 +30,24 @@ module TwitchPotato {
             this._container = $('#players .player[number="' + num + '"]');
             this._webview = <WebviewElement>this._container.find('webview')[0];
 
-            this.GetPartnerStatus(() => {
-                var src = 'http://www.twitch.tv/widgets/live_embed_player.swf?volume=100&auto_play=true&';
-                src += (!isVideo) ? 'channel=' + id : 'videoId=' + id;
-
-                this._container.find('webview').attr('src', src);
-            });
+            var src = 'http://www.twitch.tv/widgets/live_embed_player.swf?volume=100&auto_play=true&';
+            src += (!isVideo) ? 'channel=' + id : 'videoId=' + id;
+            this._container.find('webview').attr('src', src);
 
             /** Bind to the contentload event. */
             this._webview.addEventListener('contentload', () => {
 
-                this._webview.executeScript({ file: 'jquery.min.js' });
-                this._webview.executeScript({ file: 'js/player/controller.js' });
+                setTimeout(() => {
+                    this._webview.executeScript({ file: 'jquery.min.js' });
+                    this._webview.executeScript({ file: 'js/player/controller.js' });
 
-                this._isLoaded = true;
+                    this._isLoaded = true;
 
-                this.ViewMode(ViewMode.Fullscreen);
-                this.Mute(false);
-                this.State(PlayerState.Playing);
-                this.Quality(App.Settings.quality);
+                    this.Mute(false);
+                    this.State(PlayerState.Playing);
+                    this.Quality(App.Settings.quality);
+                    this.ViewMode(ViewMode.Fullscreen);
+                });
             });
 
             /** Bind to the console message event. */
@@ -58,24 +56,13 @@ module TwitchPotato {
             this._menu = new PlayerMenu(this);
         }
 
-        /** Gets the current id of the playing channel or video. */
         Id(): string { return this._id; }
-
-        /** Gets whether the player has loaded. */
         IsLoaded(): boolean { return this._isLoaded; }
-
-        /** Gets whether the channel is partnered. */
-        IsPartnered(): boolean { return this._isPartnered; }
-
-        /** Gets the player container. */
         Container(): JQuery { return this._container; }
-
-        /** Gets the player menu. */
         Menu(): PlayerMenu { return this._menu; }
 
         /** Gets or sets the current multi layout for the player. */
         MultiLayout(layout?: MultiLayout): MultiLayout {
-
             if (layout !== undefined &&
                 this._multiLayout !== layout) {
                 this._multiLayout = layout;
@@ -84,24 +71,20 @@ module TwitchPotato {
                     .attr('multi', MultiLayout[layout])
                     .fadeIn();
             }
-
             return this._multiLayout;
         }
 
         /** Gets or sets the number for the player. */
         Number(num?: number): number {
-
             if (num !== undefined) {
                 this._number = num;
                 $(this._container).attr('number', num);
             }
-
             return this._number;
         }
 
         /** Removes the player's webview from the document. */
         Remove(): void {
-
             $(this._webview).remove();
         }
 
@@ -113,28 +96,17 @@ module TwitchPotato {
             this._id = id;
             this._isVideo = isVideo;
 
-            /** Check to see if this is a partnered stream.  If it is not, then
-             *  reload the player otherwise sometimes the nonpartner streams
-             *  to do not load properly. */
             if (this._isVideo) {
                 this.PlayerAction(PlayerActions.Load, { id: id, isVideo: isVideo });
                 this.State(PlayerState.Playing);
+                this.ViewMode(ViewMode.Fullscreen);
             }
             else {
                 this._isLoaded = false;
 
-                this.GetPartnerStatus((isPartnered) => {
-                    if (isPartnered) {
-                        this.PlayerAction(PlayerActions.Load, { id: id, isVideo: isVideo });
-                        this.State(PlayerState.Playing);
-                    }
-                    else {
-                        var src = 'http://www.twitch.tv/widgets/live_embed_player.swf?volume=100&auto_play=true&';
-                        src += (!isVideo) ? 'channel=' + id : 'videoId=' + id;
-
-                        this._container.find('webview').attr('src', src);
-                    }
-                });
+                this.PlayerAction(PlayerActions.Load, { id: id, isVideo: isVideo });
+                this.State(PlayerState.Playing);
+                this.ViewMode(ViewMode.Fullscreen);
             }
         }
 
@@ -157,7 +129,7 @@ module TwitchPotato {
 
                 this._state = state;
 
-                this.PlayerAction(PlayerActions.State, { state: state, queue: true });
+                this.PlayerAction(PlayerActions.State, { state: state });
             }
 
             return this._state;
@@ -168,7 +140,7 @@ module TwitchPotato {
 
             if (mute !== undefined) {
                 this._isMuted = mute;
-                this.PlayerAction(PlayerActions.Mute, { mute: mute, queue: true });
+                this.PlayerAction(PlayerActions.Mute, { mute: mute });
             }
 
             return this._isMuted;
@@ -176,15 +148,14 @@ module TwitchPotato {
 
         /** Gets or sets the view mode of the player. */
         ViewMode(viewMode?: ViewMode): ViewMode {
-
             if (viewMode !== undefined) {
-
                 if (viewMode === ViewMode.Toggle)
                     viewMode = (this._viewMode === ViewMode.Fullscreen) ?
                         ViewMode.Windowed :
                         ViewMode.Fullscreen;
 
                 if (this._viewMode !== viewMode) {
+                    console.log('viewmode queued');
                     this._viewMode = viewMode;
                     this.PlayerAction(PlayerActions.ViewMode, { viewMode: viewMode });
                     this.DisplayActionNotification(ViewMode[this._viewMode]);
@@ -199,7 +170,7 @@ module TwitchPotato {
 
             if (quality !== undefined) {
                 this._quality = quality;
-                this.PlayerAction(PlayerActions.Quality, { quality: quality, queue: true });
+                this.PlayerAction(PlayerActions.Quality, { quality: quality });
             }
 
             return this._quality;
@@ -234,20 +205,6 @@ module TwitchPotato {
             this._webview.reload();
         }
 
-        /** Gets to see if the channel is partnered. */
-        private GetPartnerStatus(callback?: (isPartnered: boolean) => void): void {
-
-            if (this._isVideo) {
-                this._isPartnered = undefined;
-                callback(undefined);
-            }
-            else
-                App.Twitch.IsPartnered(this._id, (isPartnered) => {
-                    this._isPartnered = isPartnered;
-                    callback(isPartnered)
-                });
-        }
-
         /** Executes an action with the given param object on the player. */
         private PlayerAction(action: PlayerActions, params = {}): void {
 
@@ -262,6 +219,7 @@ module TwitchPotato {
             };
 
             setTimeout(() => this._webview.contentWindow.postMessage(JSON.stringify(data), '*'), 100);
+            console.log(data);
         }
 
 

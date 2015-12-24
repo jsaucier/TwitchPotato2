@@ -51,7 +51,7 @@ module TwitchPotato {
                 var channel = App.Twitch.GetChannel(key);
 
                 var isFollowingChannel = App.Twitch.IsFollowing(FollowType.Channel, key);
-                var isFollowingGame = App.Twitch.IsFollowing(FollowType.Game, channel.game);
+                var isFollowingGame = App.Twitch.IsFollowing(FollowType.Game, channel.Game);
                 var isHidden = App.Settings.IsGameHidden(key);
 
                 html +=
@@ -65,7 +65,7 @@ module TwitchPotato {
 
                 html = html.format(
                     key,
-                    channel.game,
+                    channel.Game,
                     isFollowingChannel ? 'Unfollow' : 'Follow',
                     isFollowingGame ? 'Unfollow' : 'Follow',
                     isHidden ? 'Unhide' : 'Hide');
@@ -117,13 +117,13 @@ module TwitchPotato {
 
             if (App.Settings.isMouseEnabled) {
 
-                items.on('mouseup',(event: Event) => {
+                items.on('mouseup', (event: Event) => {
                     if (event.button !== 0) return;
                     event.stopPropagation();
                     this.Select(event);
                 });
 
-                items.on('mouseover',(event: Event) => {
+                items.on('mouseover', (event: Event) => {
                     $('.menu-item.selected', '#item-menu').removeClass('selected');
                     var s = $(event.currentTarget).addClass('selected');
                     this._selected = s.attr('action');

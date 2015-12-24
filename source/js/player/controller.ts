@@ -51,7 +51,7 @@ class Controller {
 
     private _player: PlayerEmbed;
     // private _message: MessageEvent;
-    private _viewMode: ViewMode;
+    private _viewMode = ViewMode.Windowed;
     private _isMuted: boolean;
     private _queue: Array<any> = [];
     private _isLoaded = false;
@@ -118,7 +118,7 @@ class Controller {
         if (status === 'unknown')
             setTimeout(() => this.CheckLoaded(), 100);
         else
-            setTimeout(() => this.ProcessQueue(), 500);
+            setTimeout(() => this.ProcessQueue(), 1000);
     }
 
     private Mute(mute): void {
@@ -175,9 +175,8 @@ class Controller {
             this._player.loadStream(id);
     }
 
-    private ViewMode(mode?: ViewMode): void {
-
-        if (mode !== ViewMode.Fullscreen)
+    private ViewMode(viewMode?: ViewMode): void {
+        if (viewMode !== ViewMode.Fullscreen)
             this._player.height = '100%';
 
         var body = document.body;
@@ -192,14 +191,14 @@ class Controller {
 
         var heightStr = height + '';
 
-        if (mode !== undefined) this._viewMode = mode;
-
-        if (this._viewMode === ViewMode.Fullscreen)
+        if (viewMode === ViewMode.Fullscreen)
             heightStr = (height + 34) + 'px';
-        else if (mode === ViewMode.Windowed)
+        else if (viewMode === ViewMode.Windowed)
             heightStr = "100%";
 
         this._player.height = heightStr;
+
+        this._viewMode = viewMode;
     }
 }
 

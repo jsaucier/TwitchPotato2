@@ -16,8 +16,8 @@ module TwitchPotato {
 
                 var channel = App.Twitch.GetChannel(o);
 
-                if (this._online[o] !== channel.game)
-                    online[o] = channel.game || online[o] || '';
+                if (this._online[o] !== channel.Game)
+                    online[o] = channel.Game || online[o] || '';
             }
 
             var html = '';
@@ -28,14 +28,14 @@ module TwitchPotato {
 
                 html +=
                 '<div class="line">' +
-                '<div class="name">' + channel.streamer + '</div>' +
-                '<div class="game">' + channel.game + '</div>' +
+                '<div class="name">' + channel.Streamer + '</div>' +
+                '<div class="game">' + channel.Game + '</div>' +
                 '</div>';
 
                 // html += item.format(channel.streamer, channel.game);
 
                 // console.log(item)?
-                this._online[o] = channel.game || '';
+                this._online[o] = channel.Game || '';
             }
 
             $('#notification').html(html);

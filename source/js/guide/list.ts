@@ -143,7 +143,7 @@ module TwitchPotato {
 
         private CreateChannelItem(channel: TwitchChannel, key: string, isSelected: boolean): string {
 
-            if (App.Settings.IsGameHidden(channel.game)) return '';
+            if (App.Settings.IsGameHidden(channel.Game)) return '';
 
             var html =
                 '<div class="{0}" key="{1}">' +
@@ -164,10 +164,10 @@ module TwitchPotato {
             return html.format(
                 cls,
                 key,
-                channel.streamer,
-                channel.viewers.deliminate(),
-                channel.game,
-                channel.title);
+                channel.Streamer,
+                channel.Viewers.deliminate(),
+                channel.Game,
+                channel.Title);
         }
 
         private CreateGameItem(game: TwitchGame, key: string, isSelected: boolean): string {
@@ -230,8 +230,8 @@ module TwitchPotato {
             var aIsFollowed = App.Twitch.IsFollowing(FollowType.Channel, a);
             var bIsFollowed = App.Twitch.IsFollowing(FollowType.Channel, b);
 
-            var aNumber = aItem.viewers;
-            var bNumber = bItem.viewers;
+            var aNumber = aItem.Viewers;
+            var bNumber = bItem.Viewers;
 
             aNumber += (aIsFollowed === true) ? 999999999 : aNumber;
             bNumber += (bIsFollowed === true) ? 999999999 : bNumber;

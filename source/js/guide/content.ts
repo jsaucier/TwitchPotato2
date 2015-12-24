@@ -188,16 +188,16 @@ module TwitchPotato {
 
             /** The channel head template. */
             var head = $('#channel-info-head-template').html().format(
-                channel.streamer,
-                channel.title,
-                channel.game,
-                channel.viewers.deliminate());
+                channel.Streamer,
+                channel.Title,
+                channel.Game,
+                channel.Viewers.deliminate());
 
             /** Append the head html to the document. */
             $('#info .head').html(head);
 
             /** Load the channel preview. */
-            this.LoadPreview(key, channel.preview);
+            this.LoadPreview(key, channel.Preview);
         }
 
         private ShowGame(key: string): void {
