@@ -77,13 +77,13 @@ module TwitchPotato {
             });
         }
 
-        // Quality(quality?: Quality): Quality {
-        //     if (quality !== undefined) {
-        //         this._settings.quality = quality;
-        //     }
-        //     this.Save();
-        //     return this._settings.quality;
-        // }
+        Quality(quality?: Quality): Quality {
+            if (quality !== undefined) {
+                this._settings.quality = quality;
+            }
+            this.Save();
+            return this._settings.quality;
+        }
 
         private _defaults = <StorageInterface>{
             zoom: 1,

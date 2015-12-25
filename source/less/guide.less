@@ -1,8 +1,9 @@
 // out: ../../app/css/guide.css, sourcemap: true, compress: true
 @purple: #6441a5;
-@darkgray: #222;
-@gray: #252525;
-@lightgray: #333;
+@lightpurple: #b9a3e3;
+@darkgray: #262626;
+@lightgray: #F1F1F1;
+@hidden: #999;
 .textShadow(@color) {
     text-shadow: -1px -1px 0 @color, 1px -1px 0 @color, -1px 1px 0 @color, 1px 1px 0 @color;
 }
@@ -62,7 +63,7 @@
             display: inline-block;
             padding: 0 20px;
             margin: 0 5px;
-            background-color: #151515;
+            background-color: @darkgray;
             color: #fff;
             border: 1px solid #000;
             #menu-text {
@@ -86,7 +87,7 @@
             .title {
                 margin-bottom: 5px;
                 border: 1px solid #000;
-                background-color: #151515;
+                background-color: @darkgray;
                 display: flex;
                 flex-direction: row;
                 align-items: baseline;
@@ -112,7 +113,7 @@
                     border-top: none;
                     padding: 11px 8px 8px;
                     font-size: 20px;
-                    background-color: @gray;
+                    background-color: @darkgray;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -177,7 +178,7 @@
         }
         .item {
             margin-bottom: 1px;
-            background-color: @gray;
+            background-color: @darkgray;
             padding: 8px;
             display: flex;
             flex-wrap: wrap;
@@ -204,7 +205,8 @@
                     font-size: 14px;
                     flex: 0 0 auto;
                     padding: 3px 6px;
-                    background-color: #666;
+                    background-color: #fff;
+                    color: @darkgray;
                     border-radius: 5px;
                 }
             }
@@ -218,15 +220,27 @@
                 font-size: 14px;
             }
             &.followed {
-                background-color: @lightgray;
+                background-color: #fff;
+                color: @darkgray;
+                .viewers {
+                    background-color: @darkgray;
+                    color: #fff;
+                }
             }
             &.hidden {
-                background-color: #494949;
+                background-color: @lightgray;
+                color: @hidden;
+                .viewers {
+                    background-color: @hidden;
+                    color: #fff;
+                }
             }
             &.selected {
                 background-color: @purple;
+                color: #fff;
                 .viewers {
                     background-color: @darkgray;
+                    color: #fff;
                 }
             }
             &:last-child {
@@ -241,7 +255,7 @@
                 flex-direction: column;
                 .menu-item {
                     font-size: 16px;
-                    background-color: @gray;
+                    background-color: @darkgray;
                     border-bottom: 1px solid #000;
                     text-align: center;
                     padding: 4px;

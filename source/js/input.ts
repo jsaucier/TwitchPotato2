@@ -18,8 +18,8 @@ module TwitchPotato {
 
             $(document).keydown((event) => this.OnInput(event));
 
-            $(document).on('focus', 'input',() => this._inputFocued = true);
-            $(document).on('blur', 'input',() => this._inputFocued = false);
+            $(document).on('focus', 'input', () => this._inputFocued = true);
+            $(document).on('blur', 'input', () => this._inputFocued = false);
         }
 
         /** Handles and routes the input for the application. */
@@ -99,11 +99,11 @@ module TwitchPotato {
             { name: 'Toggle View Mode', desc: '', type: Inputs.ToggleViewMode, key: 'U' },
             { name: 'Fullscreen View Mode', desc: '', type: Inputs.Fullscreen, key: 'I' },
             { name: 'Windowed View Mode', desc: '', type: Inputs.Windowed, key: 'O' },
-            { name: 'Mobile Resolution', desc: '', type: Inputs.QualityMobile, key: '1' },
-            { name: 'Low Resolution', desc: '', type: Inputs.QualityLow, key: '2' },
-            { name: 'Medium Resolution', desc: '', type: Inputs.QualityMedium, key: '3' },
-            { name: 'High Resolution', desc: '', type: Inputs.QualityHigh, key: '4' },
-            { name: 'Source Resolution', desc: '', type: Inputs.QualitySource, key: '5' },
+            { name: 'Mobile Quality', desc: '', type: Inputs.QualityMobile, key: '1' },
+            { name: 'Low Quality', desc: '', type: Inputs.QualityLow, key: '2' },
+            { name: 'Medium Quality', desc: '', type: Inputs.QualityMedium, key: '3' },
+            { name: 'High Quality', desc: '', type: Inputs.QualityHigh, key: '4' },
+            { name: 'Source Quality', desc: '', type: Inputs.QualitySource, key: '5' },
             { name: 'Reload Player', desc: 'Reloads the player completely.', type: Inputs.Reload, key: 'T' }
         ];
 

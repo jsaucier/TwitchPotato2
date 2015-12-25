@@ -27,11 +27,10 @@ module TwitchPotato {
                     case Inputs.Stop:
                         player.State(PlayerState.Stopped);
 
-                        if (!this.IsPlaying()) {
-                            this._container.cssFade('out');
+                        if (this.IsPlaying() === false) {
+                            this.Hide();
                             App.Guide.Toggle(true);
                         }
-
                         return true;
 
                     case Inputs.Play:
@@ -120,23 +119,22 @@ module TwitchPotato {
             }
         }
 
+        /** Shows the guide. */
+        Hide(): void { this._container.cssFade('out'); }
+
         /** Gets whether a player is playing. */
         IsPlaying(): boolean {
-
             for (var i in this._players)
                 if (this._players[i].State() === PlayerState.Playing)
                     return true;
-
             return false;
         }
 
         /** Gets the player by the given number. */
         GetByNumber(num: number): Player {
-
             for (var i in this._players)
                 if (this._players[i].Number() === num)
                     return this._players[i];
-
             return undefined;
         }
 
@@ -150,13 +148,18 @@ module TwitchPotato {
 
         /** Plays the channel or video. */
         Play(id: string, isVideo = false, multi = false): void {
-
+            var canLoad = false;
             var player = this.GetByNumber(0);
 
-            if (multi || player === undefined)
-                player = this.Add(id, isVideo);
-            else
+            if (player !== undefined)
+                if ((multi === true && player.State() === PlayerState.Stopped) ||
+                    multi === false)
+                    canLoad = true;
+
+            if (canLoad === true)
                 player.Load(id, isVideo);
+            else
+                player = this.Add(id, isVideo);
 
             this.PlayerMode(PlayerMode.Full);
 

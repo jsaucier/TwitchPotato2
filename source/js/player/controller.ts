@@ -15,7 +15,22 @@ interface PlayerEmbed extends HTMLElement {
     setQuality(quality: string): void;
     quality(): any;
     togglePlayPause(): void;
+    isPlaying(): boolean;
     height: string;
+}
+
+interface PlayerActionInfo {
+    action: number;
+    params: PlayerActionParameters;
+}
+
+interface PlayerActionParameters {
+    id?: string;
+    isVideo?: boolean;
+    state?: number;
+    viewMode?: number;
+    quality?: number;
+    isMuted?: boolean;
 }
 
 enum PlayerActions {
@@ -65,19 +80,24 @@ class Controller {
     }
 
     OnMessage(data: string, source?: any): void {
-        if (this._source === undefined) this._source = source;
+        if (this._source === undefined)
+            this._source = source;
 
-        var json = JSON.parse(data);
+        // Player not loaded, queue the message.
+        if (this._isLoaded === false) {
+            this._queue.push(data);
+            return;
+        }
+
+        var json: PlayerActionInfo = JSON.parse(data);
         var params = json.params;
-
-        if (this.QueueMessage(json)) return;
 
         switch (json.action) {
             case PlayerActions.Load:
                 this.Load(params.id, params.isVideo);
                 break;
             case PlayerActions.Mute:
-                this.Mute(params.mute);
+                this.Mute(params.isMuted);
                 break;
             case PlayerActions.State:
                 this.State(params.state);
@@ -95,36 +115,26 @@ class Controller {
                 console.log('Unhandled method: ' + PlayerActions[json.action]);
                 break;
         }
-
-        console.log('Received: ' + PlayerActions[json.action]);
-        setTimeout(() => this._source.postMessage(data, '*'));
-    }
-
-    private QueueMessage(json: any): boolean {
-        if (this._isLoaded || json.params.queue === undefined) return false;
-        var data = JSON.stringify(json);
-        this._queue.push(data);
-        return true;
+        setTimeout(() => this._source.postMessage(data, '*'), 100);
     }
 
     private ProcessQueue(): void {
-        if (this._isLoaded) return
         this._isLoaded = true;
+
         for (var i = 0; i < this._queue.length; i++)
             this.OnMessage(this._queue[i]);
         this._queue = [];
     }
 
     private CheckLoaded(): void {
-
-        if (this._isLoaded) return
+        if (this._isLoaded === true) return
 
         var status = this._player.onlineStatus();
 
-        if (status === 'unknown')
-            setTimeout(() => this.CheckLoaded(), 100);
+        if (status === 'online')
+            setTimeout(() => this.ProcessQueue(), 1000);
         else
-            setTimeout(() => this.ProcessQueue(), 100);
+            setTimeout(() => this.CheckLoaded(), 100);
     }
 
     private Mute(mute): void {
@@ -181,6 +191,7 @@ class Controller {
     }
 
     private ViewMode(viewMode?: ViewMode): void {
+        console.log(viewMode + '-' + this._viewMode);
         if (viewMode !== ViewMode.Fullscreen)
             this._player.height = '100%';
 

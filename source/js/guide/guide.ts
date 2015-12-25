@@ -40,7 +40,9 @@ module TwitchPotato {
             if (showOrHide === undefined)
                 showOrHide = !this._isOpen;
 
-            if (!showOrHide && !App.Players.IsPlaying()) return;
+            if (showOrHide === false &&
+                App.Players.IsPlaying() === false)
+                return;
 
             App.Players.ToggleGuide(showOrHide);
 

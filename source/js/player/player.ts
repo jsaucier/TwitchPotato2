@@ -1,5 +1,19 @@
 module TwitchPotato {
 
+    interface PlayerActionInfo {
+        action: number;
+        params: PlayerActionParameters;
+    }
+
+    interface PlayerActionParameters {
+        id?: string;
+        isVideo?: boolean;
+        state?: number;
+        viewMode?: number;
+        quality?: number;
+        isMuted?: boolean;
+    }
+
     export class Player {
 
         private _isLoaded = false;
@@ -43,10 +57,10 @@ module TwitchPotato {
 
                     this._isLoaded = true;
 
-                    this.Mute(false);
                     this.State(PlayerState.Playing);
+                    this.Mute(false);
+                    this.Quality(App.Settings.Quality());
                     this.ViewMode(ViewMode.Fullscreen);
-                    this.Quality(Quality.Source);
                 }, 100);
             });
 
@@ -100,6 +114,7 @@ module TwitchPotato {
             if (this._isVideo) {
                 this.PlayerAction(PlayerActions.Load, { id: id, isVideo: isVideo });
                 this.State(PlayerState.Playing);
+                this.Mute(false);
                 this.ViewMode(ViewMode.Fullscreen);
             }
             else {
@@ -107,6 +122,7 @@ module TwitchPotato {
 
                 this.PlayerAction(PlayerActions.Load, { id: id, isVideo: isVideo });
                 this.State(PlayerState.Playing);
+                this.Mute(false);
                 this.ViewMode(ViewMode.Fullscreen);
             }
         }
@@ -120,26 +136,27 @@ module TwitchPotato {
 
         /** Gets or sets the state of the player. */
         State(state?: PlayerState, toggle = false): PlayerState {
-
             if (state !== undefined) {
-
                 if (toggle &&
                     state === PlayerState.Playing &&
                     this._state === PlayerState.Playing)
                     state = PlayerState.Stopped;
-
                 this.PlayerAction(PlayerActions.State, { state: state });
+                if (App.Players.IsPlaying() === false)
+                    App.Guide.Toggle(true);
+                this._state = state;
             }
             else
                 return this._state;
         }
 
         /** Gets or sets the mute status of the player. */
-        Mute(mute?: boolean): boolean {
-            if (mute !== undefined) {
-                if (mute === null)
-                    mute = !this._isMuted;
-                this.PlayerAction(PlayerActions.Mute, { mute: mute });
+        Mute(isMuted?: boolean): boolean {
+            if (isMuted !== undefined) {
+                if (isMuted === null)
+                    isMuted = !this._isMuted;
+                this.PlayerAction(PlayerActions.Mute, { isMuted: isMuted });
+                this._isMuted = isMuted;
             }
             else
                 return this._isMuted;
@@ -152,10 +169,10 @@ module TwitchPotato {
                     viewMode = (this._viewMode === ViewMode.Fullscreen) ?
                         ViewMode.Windowed :
                         ViewMode.Fullscreen;
-
                 if (this._viewMode !== viewMode) {
                     this.PlayerAction(PlayerActions.ViewMode, { viewMode: viewMode });
                 }
+                this._viewMode = viewMode;
             }
             else
                 return this._viewMode;
@@ -165,6 +182,7 @@ module TwitchPotato {
         Quality(quality?: Quality): Quality {
             if (quality !== undefined) {
                 this.PlayerAction(PlayerActions.Quality, { quality: quality });
+                this._quality = quality;
             }
             else
                 return this._quality;
@@ -200,7 +218,7 @@ module TwitchPotato {
         }
 
         /** Executes an action with the given param object on the player. */
-        private PlayerAction(action: PlayerActions, params = {}): void {
+        private PlayerAction(action: PlayerActions, params: PlayerActionParameters = {}): void {
             if (!this._webview.contentWindow) {
                 setTimeout(() => this.PlayerAction(action, params), 100);
                 return;
@@ -215,25 +233,26 @@ module TwitchPotato {
         }
 
         OnMessage(data: string): void {
-            var json = JSON.parse(data);
+            var json: PlayerActionInfo = JSON.parse(data);
             var params = json.params;
-            console.log('Response: ' + PlayerActions[json.action]);
+
             switch (json.action) {
                 case PlayerActions.Mute:
                     var div = this._container.find('#muted');
-                    if (params.mute === true)
+                    if (params.isMuted === true)
                         div.removeClass('closed');
                     else
                         div.addClass('closed');
-                    this._isMuted = params.mute;
+                    this._isMuted = params.isMuted;
                     break;
                 case PlayerActions.State:
-                    this._viewMode = params.viewMode;
+                    this._state = params.state;
                     break;
                 case PlayerActions.ViewMode:
                     this._viewMode = params.viewMode;
                     break;
                 case PlayerActions.Quality:
+                    App.Settings.Quality(params.quality);
                     var div = this._container.find('#quality');
                     div.text(Quality[params.quality]).removeClass('closed');
                     setTimeout(() => div.addClass('closed'), 5000);
