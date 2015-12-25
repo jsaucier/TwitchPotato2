@@ -123,10 +123,18 @@ module TwitchPotato {
         Hide(): void { this._container.cssFade('out'); }
 
         /** Gets whether a player is playing. */
-        IsPlaying(): boolean {
-            for (var i in this._players)
-                if (this._players[i].State() === PlayerState.Playing)
-                    return true;
+        IsPlaying(id?: string): boolean {
+            if (id === undefined) {
+                for (var i in this._players)
+                    if (this._players[i].State() === PlayerState.Playing)
+                        return true;
+            }
+            else {
+                for (var i in this._players)
+                    if (this._players[i].State() === PlayerState.Playing &&
+                        this._players[i].Id() === id)
+                        return true;
+            }
             return false;
         }
 
@@ -150,6 +158,8 @@ module TwitchPotato {
         Play(id: string, isVideo = false, multi = false): void {
             var canLoad = false;
             var player = this.GetByNumber(0);
+
+            if (this.IsPlaying(id) === true) return;
 
             if (player !== undefined)
                 if ((multi === true && player.State() === PlayerState.Stopped) ||
@@ -185,7 +195,6 @@ module TwitchPotato {
 
         /** Removes the selected player. */
         Remove(): void {
-
             this.ClearSelected();
 
             var removed = this.GetSelected().Number();
