@@ -191,7 +191,6 @@ class Controller {
     }
 
     private ViewMode(viewMode?: ViewMode): void {
-        console.log(viewMode + '-' + this._viewMode);
         if (viewMode !== ViewMode.Fullscreen)
             this._player.height = '100%';
 
