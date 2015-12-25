@@ -47,7 +47,8 @@ module TwitchPotato {
     export enum ViewMode {
         Fullscreen,
         Windowed,
-        Toggle
+        Toggle,
+        Update
     }
 
     export enum MultiPosition {
