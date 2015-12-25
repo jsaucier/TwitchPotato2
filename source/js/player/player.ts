@@ -223,13 +223,10 @@ module TwitchPotato {
                 setTimeout(() => this.PlayerAction(action, params), 100);
                 return;
             }
-
-            var data = {
-                action: action,
-                params: params
-            };
-
-            setTimeout(() => this._webview.contentWindow.postMessage(JSON.stringify(data), '*'), 100);
+            setTimeout(() => this._webview.contentWindow.postMessage(
+                JSON.stringify(
+                    { action: action, params: params }),
+                '*'), 100);
         }
 
         OnMessage(data: string): void {
