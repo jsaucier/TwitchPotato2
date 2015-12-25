@@ -31,6 +31,8 @@ module TwitchPotato {
                             this.Hide();
                             App.Guide.Toggle(true);
                         }
+                        else
+                            this.Remove();
                         return true;
 
                     case Inputs.Play:
@@ -90,7 +92,6 @@ module TwitchPotato {
                         return true;
 
                     case Inputs.MultiLayout:
-
                         var layout = (this._multiLayout === MultiLayout.Default) ?
                             MultiLayout.Equal : MultiLayout.Default;
 
@@ -278,6 +279,9 @@ module TwitchPotato {
                 this._players[index].MultiLayout(layout)
 
             this._multiLayout = layout;
+
+            for (var index in this._players)
+                this._players[index].ViewMode(ViewMode.Update);
         }
 
         /** Updates the selected player. */

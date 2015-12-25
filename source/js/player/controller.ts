@@ -52,7 +52,9 @@ enum PlayerState {
 
 enum ViewMode {
     Fullscreen,
-    Windowed
+    Windowed,
+    Toggle,
+    Update
 }
 
 enum Quality {
@@ -74,7 +76,7 @@ class Controller {
 
     constructor() {
         window.addEventListener('message', (event) => this.OnMessage(event.data, event.source));
-        window.addEventListener('resize', () => this.ViewMode());
+        window.addEventListener('resize', () => this.ViewMode(ViewMode.Update));
         this._player = <PlayerEmbed>$('embed')[0];
         this.CheckLoaded();
     }
@@ -130,7 +132,6 @@ class Controller {
         if (this._isLoaded === true) return
 
         var status = this._player.onlineStatus();
-
         if (status === 'online')
             setTimeout(() => this.ProcessQueue(), 1000);
         else
@@ -147,7 +148,6 @@ class Controller {
     }
 
     private State(state: PlayerState): void {
-
         if (state === PlayerState.Playing)
             this._player.playVideo();
         else if (state === PlayerState.Stopped)
@@ -183,16 +183,19 @@ class Controller {
     // }
 
     private Load(id: string, isVideo: boolean): void {
-
         if (isVideo)
             this._player.loadVideo(id);
         else
             this._player.loadStream(id);
     }
 
-    private ViewMode(viewMode?: ViewMode): void {
-        if (viewMode !== ViewMode.Fullscreen)
+    private ViewMode(viewMode: ViewMode): void {
+        if (viewMode !== ViewMode.Fullscreen ||
+            viewMode === ViewMode.Update)
             this._player.height = '100%';
+
+        if (viewMode === ViewMode.Update)
+            viewMode = this._viewMode;
 
         var body = document.body;
         var html = document.documentElement;

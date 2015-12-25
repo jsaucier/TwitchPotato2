@@ -142,8 +142,6 @@ module TwitchPotato {
                     this._state === PlayerState.Playing)
                     state = PlayerState.Stopped;
                 this.PlayerAction(PlayerActions.State, { state: state });
-                if (App.Players.IsPlaying() === false)
-                    App.Guide.Toggle(true);
                 this._state = state;
             }
             else
@@ -169,9 +167,13 @@ module TwitchPotato {
                     viewMode = (this._viewMode === ViewMode.Fullscreen) ?
                         ViewMode.Windowed :
                         ViewMode.Fullscreen;
-                if (this._viewMode !== viewMode) {
+
+                if (viewMode !== this._viewMode || viewMode == ViewMode.Update)
                     this.PlayerAction(PlayerActions.ViewMode, { viewMode: viewMode });
-                }
+
+                if (viewMode === ViewMode.Update)
+                    viewMode = this._viewMode;
+
                 this._viewMode = viewMode;
             }
             else
@@ -212,7 +214,6 @@ module TwitchPotato {
 
         /** Reloads the player. */
         Reload(): void {
-
             this._isLoaded = false;
             this._webview.reload();
         }
