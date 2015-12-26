@@ -12,40 +12,28 @@ module TwitchPotato {
 
         /** Creates an instance of the AuthenticationHandler. */
         constructor(onAuthenticated?: (user: string, name: string, token: string) => void) {
-
-            /** Set the webview. */
             this._webview = <WebviewElement>this._element[0];
-
-            /** Set the callback function. */
             this._callback = onAuthenticated;
-
-            /** Setup the event listener. */
             this._webview.addEventListener('contentload', () => this.ContentLoaded());
             this._webview.addEventListener('loadcommit', (event: LoadCommitEvent) => this.LoadCommited(event));
-
-            /** Get the access token. */
             this.GetToken();
         }
 
         /** Logs into Twitch.tv */
         LogIn(): void {
-
             this._element.show();
             this.Navigate('https://secure.twitch.tv/login');
         }
 
         /** Logs out of Twitch.tv */
         LogOut(): void {
-
             this._isAuthenticated = false;
-
             App.LoadWindow.Open(true,
                 () => this.Navigate('http://www.twitch.tv/logout'));
         }
 
         /** Navigate the webview to the url. */
         private Navigate(url: string) {
-
             this._element.attr('src', url);
         }
 
