@@ -75,9 +75,9 @@ module TwitchPotato {
         private _inputs: Array<Input> = [
             { name: 'Close', desc: 'Closes the application or current webview.', type: Inputs.Close, key: 'ESCAPE' },
             { name: 'Toggle Guide', desc: 'Toggles the guide.', type: Inputs.ToggleGuide, key: 'G' },
-            { name: 'Zoom Increase', desc: 'Increases the application level.', type: Inputs.ZoomIncrease, key: 'EQUALS' },
-            { name: 'Zoom Decrease', desc: 'Decreases the application level.', type: Inputs.ZoomDecrease, key: 'MINUS' },
-            { name: 'Zoom Reset', desc: 'Resets the application zoon level..', type: Inputs.ZoomReset, key: '0' },
+            { name: 'Zoom Increase', desc: 'Increases the application zoom level.', type: Inputs.ZoomIncrease, key: 'EQUALS' },
+            { name: 'Zoom Decrease', desc: 'Decreases the application zoom level.', type: Inputs.ZoomDecrease, key: 'MINUS' },
+            { name: 'Zoom Reset', desc: 'Resets the application zoom level..', type: Inputs.ZoomReset, key: '0' },
             // { name: 'Save Setting', desc: 'Saves the new setting value.', type: Inputs.SaveSetting, key: 'ENTER', hidden: true },
 
             { name: 'Up', desc: 'Guide - Scrolls up the items.<br/>Player - Selects the previous player.', type: Inputs.Up, key: 'UP' },
