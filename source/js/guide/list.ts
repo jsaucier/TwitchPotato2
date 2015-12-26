@@ -61,7 +61,7 @@ module TwitchPotato {
 
                 if (menu === MenuType.Channels ||
                     menu === MenuType.Game)
-                    html += this.CreateChannelItem(item, k, isSelected);
+                    html += this.CreateChannelItem(item, k, isSelected, menu);
                 else if (menu === MenuType.Games) {
                     html += this.CreateGameItem(item, k, isSelected);
                 }
@@ -127,9 +127,9 @@ module TwitchPotato {
             $('#list').scrollToMiddle('#list .selected');
         }
 
-        private CreateChannelItem(channel: TwitchChannel, key: string, isSelected: boolean): string {
+        private CreateChannelItem(channel: TwitchChannel, key: string, isSelected: boolean, menu: MenuType): string {
 
-            if (App.Settings.IsGameHidden(channel.Game)) return '';
+            if (App.Settings.IsGameHidden(channel.Game) && menu !== MenuType.Game) return '';
 
             var html =
                 '<div class="{0}" key="{1}">' +
