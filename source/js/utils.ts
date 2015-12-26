@@ -5,7 +5,7 @@ interface String {
 }
 
 String.prototype.format = function(...args: any[]): string {
-    return this.replace(/\{\{|\}\}|\{(\d+)\}/g,(m, n) => {
+    return this.replace(/\{\{|\}\}|\{(\d+)\}/g, (m, n) => {
         if (m == '{{') return '{';
         if (m === "}}") return '}';
         return args[n];
@@ -88,6 +88,20 @@ module TwitchPotato {
         selected.removeClass('selected');
         return items.eq(index).addClass('selected');
     }
+}
+
+$.fn.scrollToMiddle = function(element, callback) {
+    return $(this).each(() => {
+        var selected = $(element);
+        if (selected.length !== 0) {
+            var selectedItemTop = selected.offset().top;
+            var halfListHeight = $(this).height() / 2;
+            var halfItemHeight = selected.height() / 2;
+            var scrollTop = $(this).scrollTop();
+            var scroll = scrollTop + selectedItemTop - halfListHeight + halfItemHeight;
+            $(this).scrollTop(scroll);
+        }
+    });
 }
 
 $.fn.cssFade = function(fadeType, callback) {

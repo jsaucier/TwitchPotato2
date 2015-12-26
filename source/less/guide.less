@@ -22,6 +22,43 @@
             transform: scale(0);
         }
     }
+    #keybinds-menu {
+        position: fixed;
+        left: 453px;
+        padding: 1px;
+        background-color: #000;
+        top: 4px;
+        right: 4px;
+        bottom: 4px;
+        overflow: scroll;
+        transition-property: transform;
+        transition-duration: 0.5s;
+        .binding {
+            display: flex;
+            padding: 10px 5px;
+            background-color: @darkgray;
+            margin-bottom: 1px;
+            .key {
+                width: 125px;
+                min-width: 125px;
+                text-align: right;
+                padding-right: 20px;
+            }
+            .desc {
+                
+            }
+            &.selected {
+                background-color: #fff;
+                color: @darkgray;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        &.closed {
+            transform: scale(0);
+        }
+    }
     #status {
         position: fixed;
         right: 0;
@@ -122,7 +159,8 @@
                         border-top: 1px solid #000;
                     }
                     &.selected {
-                        background-color: @purple;
+                        background-color: #fff;
+                        color: @darkgray;
                     }
                 }
                 .separator {

@@ -25,6 +25,7 @@
         "./source/js/guide/contextmenu.ts",
         "./source/js/guide/guide.ts",
         "./source/js/guide/itemmenu.ts",
+        "./source/js/guide/keybinds.ts",
         "./source/js/guide/list.ts",
         "./source/js/guide/menu.ts",
         "./source/js/guide/menuitem.ts",

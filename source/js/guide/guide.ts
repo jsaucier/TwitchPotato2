@@ -51,8 +51,11 @@ module TwitchPotato {
             this._isOpen = showOrHide;
         }
 
-        private OnAjaxCompleted(): void {
+        Refresh(skipFollowed = false): void {
+            App.Twitch.Refresh(skipFollowed);
+        }
 
+        private OnAjaxCompleted(): void {
             this.Menu.CreateItems(this.Menu.selected)
             this.List.CreateItems(this.Menu.selected);
 
@@ -61,11 +64,6 @@ module TwitchPotato {
             App.Notification.Notify();
 
             App.LoadWindow.Close(true);
-        }
-
-        Refresh(skipFollowed = false): void {
-
-            App.Twitch.Refresh(skipFollowed);
         }
 
         private _container = $('#guide');
@@ -79,5 +77,6 @@ module TwitchPotato {
         List = new GuideList();
         Timer = new GuideTimer();
         Content = new GuideContent();
+        Keybinds = new GuideKeybinds();
     }
 }

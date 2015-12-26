@@ -5,6 +5,7 @@ module TwitchPotato {
         constructor() {
             $('#version').text(chrome.runtime.getManifest().version);
         }
+
         /** Handles input for the menu. */
         OnInput(input: Inputs): boolean {
 
@@ -100,19 +101,19 @@ module TwitchPotato {
 
             if (App.Settings.isMouseEnabled) {
 
-                expander.on('mouseup',() => {
+                expander.on('mouseup', () => {
                     expander
                     if (event.button !== 0) return;
                     this.Toggle(null)
                 });
 
-                items.on('mouseup',(event: Event) => {
+                items.on('mouseup', (event: Event) => {
                     if (event.button !== 0) return;
                     event.stopPropagation();
                     this.Select($(event.target));
                 });
 
-                items.on('mouseover',(event: Event) => {
+                items.on('mouseover', (event: Event) => {
                     event.stopPropagation();
                     $('.selected', '#menu-items').removeClass('selected');
                     var selected = $(event.target).addClass('selected');
@@ -168,6 +169,10 @@ module TwitchPotato {
         private SettingSelection(selected: JQuery): void {
 
             switch (selected.attr('id')) {
+
+                case 'keybinds':
+                    App.Guide.Keybinds.Open();
+                    break;
 
                 case 'logout':
                     App.Authenticator.LogOut();

@@ -12,6 +12,7 @@ interface JQuery {
     selector: string;
     cssFade(fadeType: string, callback?: (element: JQuery) => void): JQuery;
     sort(func: (a: HTMLElement, b: HTMLElement) => any);
+    scrollToMiddle(element: string);
 }
 
 interface StorageInterface {

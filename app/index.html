@@ -17,6 +17,7 @@
     <script type="text/javascript" src="js/input.js"></script>
     <script type="text/javascript" src="js/settings.js"></script>
 
+    <script type="text/javascript" src="js/guide/keybinds.js"></script>
     <script type="text/javascript" src="js/guide/menu.js"></script>
     <script type="text/javascript" src="js/guide/list.js"></script>
     <script type="text/javascript" src="js/guide/itemmenu.js"></script>
@@ -60,26 +61,7 @@
                     <div id="version">2.0.0</div>
                 </div>
                 <div id="menu-items">
-                    <div class="separator">
-                        <div class="keybinds">
-                            <div class="keybinds-title">Keybindings</div>
-                            <div class="keybinds-header">Global Bindings</div>
-                            <div class="keybinds-bindings">
-                                <div class="keybinds-bindings-key">ESC</div>
-                                <div class="keybinds-bindings-desc">Exits the application.</div>
-                            </div>
-                            <div class="keybinds-bindings">
-                                <div class="keybinds-bindings-key">G</div>
-                                <div class="keybinds-bindings-desc">Toggles the guide.</div>
-                            </div>
-                            <div class="keybinds-header">Guide Bindings</div>
-                            <div class="keybinds-bindings">
-                                <div class="keybinds-bindings-key">P</div>
-                                <div class="keybinds-bindings-desc">Toggles the menu for the selected item.</div>
-                            </div>
-                            <div class="keybinds-header">Player Bindings</div>
-                        </div>
-                    </div>
+                    <div class="separator"></div>
                     <div id="keybinds" class="item setting">View Keybinds</div>
                     <div id="refresh" class="item setting">Refresh - 1 min</div>
                     <div id="mouse" class="item setting">Enable Mouse</div>
@@ -94,6 +76,8 @@
         </div>
 
         <div id="list"></div>
+
+        <div id="keybinds-menu" class="closed"></div>
     </div>
 
     <div id="players"></div>
