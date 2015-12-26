@@ -188,6 +188,10 @@ module TwitchPotato {
                     App.Settings.isMouseEnabled = !App.Settings.isMouseEnabled;
                     break;
 
+                case 'exit':
+                    window.close();
+                    break;
+
                 default:
                     break;
             }
