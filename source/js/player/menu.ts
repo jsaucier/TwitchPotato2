@@ -62,7 +62,12 @@ module TwitchPotato {
 
             if (showOrHide) {
                 this._highlight.fadeIn();
-                setTimeout(() => this._highlight.fadeOut(), 2500);
+                this._highlight.parent().addClass('selected');
+                setTimeout(() => {
+                    this._highlight.fadeOut();
+                    this._highlight.parent().removeClass('selected');
+                }
+                    , 2500);
             }
             else
                 this._highlight.fadeOut();

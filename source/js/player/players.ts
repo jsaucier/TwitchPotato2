@@ -149,9 +149,7 @@ module TwitchPotato {
 
         /** Gets the selected or first player. */
         GetSelected(): Player {
-
             var num = parseInt($('#players .player.selected').attr('number')) || 0;
-
             return this.GetByNumber(num);
         }
 
@@ -181,7 +179,6 @@ module TwitchPotato {
 
         /** Add a new player. */
         Add(id: string, isVideo: boolean): Player {
-
             var num = Object.keys(this._players).length;
 
             /** Only allow four players open at once. */
@@ -196,8 +193,6 @@ module TwitchPotato {
 
         /** Removes the selected player. */
         Remove(): void {
-            this.ClearSelected();
-
             var removed = this.GetSelected().Number();
 
             this.GetSelected().Remove();
@@ -220,7 +215,6 @@ module TwitchPotato {
         }
 
         ToggleGuide(isGuideMode: boolean): void {
-
             if (!this.IsPlaying()) return;
 
             if (isGuideMode) {
@@ -268,7 +262,6 @@ module TwitchPotato {
 
         /** Sets the multi layout for the players. */
         MultiLayout(layout?: MultiLayout): void {
-
             if (layout === undefined)
                 layout = this._multiLayout;
 
@@ -286,10 +279,7 @@ module TwitchPotato {
 
         /** Updates the selected player. */
         private UpdateSelector(direction: Direction): void {
-
             var num = parseInt($('#players .player.selected').attr('number')) || 0;
-
-            this.ClearSelected();
 
             if (direction === Direction.Up) num--;
             else if (direction === Direction.Down) num++;
@@ -307,7 +297,6 @@ module TwitchPotato {
 
         /** Selects the selected player. */
         private Select(): void {
-
             var current = this.GetByNumber(0);
             var player = this.GetSelected();
 
@@ -319,15 +308,6 @@ module TwitchPotato {
                 player.Number(0);
                 this._players[0] = player;
             }
-
-            this.ClearSelected();
-        }
-
-        /** Clears the selected player. */
-        private ClearSelected(): void {
-
-            $('#players .player').removeClass('selected');
-            $('#players .selector').removeAttr('number').hide();
         }
     }
 }

@@ -203,12 +203,6 @@ module TwitchPotato {
 
         /** Highlight the player. */
         Highlight(num: number): void {
-
-            if (num === this._number)
-                this._container.addClass('selected');
-            else
-                this._container.removeClass('selected');
-
             this._menu.Highlight(num === this._number);
         }
 
@@ -224,10 +218,13 @@ module TwitchPotato {
                 setTimeout(() => this.PlayerAction(action, params), 100);
                 return;
             }
-            setTimeout(() => this._webview.contentWindow.postMessage(
-                JSON.stringify(
-                    { action: action, params: params }),
-                '*'), 100);
+            setTimeout(() => {
+                if (this._webview !== undefined)
+                    this._webview.contentWindow.postMessage(
+                        JSON.stringify(
+                            { action: action, params: params }),
+                        '*')
+            }, 100);
         }
 
         OnMessage(data: string): void {
