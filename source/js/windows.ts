@@ -15,8 +15,10 @@ module TwitchPotato {
 
             if (fade)
                 $('#load').cssFade('in', callback);
-            else
+            else {
                 $('#load').show();
+                callback;
+            }
         }
 
         /** Hides the loading window. */
