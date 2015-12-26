@@ -124,21 +124,7 @@ module TwitchPotato {
         }
 
         UpdateMenuScroll(): void {
-
-            var list = $('#list');
-            var selected = $('.selected', '#list');
-
-            if (selected.length !== 0) {
-
-                var selectedItemTop = selected.offset().top;
-                var halfListHeight = list.height() / 2;
-                var halfItemHeight = selected.height() / 2;
-                var scrollTop = list.scrollTop();
-
-                var scroll = scrollTop + selectedItemTop - halfListHeight + halfItemHeight;
-
-                list.scrollTop(scroll);
-            }
+            $('#list').scrollToMiddle('#list .selected');
         }
 
         private CreateChannelItem(channel: TwitchChannel, key: string, isSelected: boolean): string {
